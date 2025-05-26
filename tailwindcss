@@ -1,0 +1,20 @@
+// tailwind.config.js
+module.exports = {
+    content: [
+      "./src/**/*.{js,jsx,ts,tsx}",
+      "./public/index.html"
+    ],
+    theme: {
+      extend: {
+        colors: {
+          gray: {
+            800: '#1f2937',
+            900: '#111827'
+          }
+        }
+      },
+    },
+    plugins: [
+      require('@tailwindcss/forms'),
+    ],
+  }
