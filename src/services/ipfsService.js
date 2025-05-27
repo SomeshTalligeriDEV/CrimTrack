@@ -9,7 +9,7 @@ class IPFSService {
       port: 5001,
       protocol: 'https',
       headers: {
-        authorization: 'Bearer YOUR_INFURA_PROJECT_SECRET' // Replace with your Infura credentials
+        authorization: 'Basic ODY2YjdjMDg5NTRjNDFjYWFkZmE2NTk4NzJlM2UxZmY6WU9VUl9TRUNSRVRfSEVSRQ=='
       }
     });
   }
