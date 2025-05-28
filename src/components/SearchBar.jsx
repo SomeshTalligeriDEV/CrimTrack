@@ -9,7 +9,11 @@ const SearchBar = ({ onSearch }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-4 flex gap-4">
+    <form onSubmit={handleSubmit} className="mb-4 searchByName flex gap-4">
+      <h1 className="text-xl font-bold">Search Records</h1>
+      <p className="text-gray-400 mb-2">
+        Enter a name below to search for crime records.
+      </p>
       <input
         type="text"
         value={name}

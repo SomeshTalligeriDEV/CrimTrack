@@ -54,7 +54,12 @@ const AddRecordForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="bg-[#1f2937] p-6 rounded shadow-md space-y-4">
+
       <h2 className="text-xl font-bold text-white">Add Criminal Record</h2>
+
+      <p>
+        Fill out the form below to add a new criminal record. Ensure all fields are filled out correctly, and you can upload supporting documents if needed.
+      </p>
       {['name', 'crime', 'location', 'victim', 'amount', 'description', 'category', 'officer'].map((field) => (
         <input
           key={field}
