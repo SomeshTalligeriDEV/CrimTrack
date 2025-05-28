@@ -1,55 +1,51 @@
 // src/services/ipfsService.js
-import { create } from 'ipfs-http-client';
+import axios from 'axios';
+
+const PINATA_API_KEY = '04d9cb1172a6d42e5df3';
+const PINATA_SECRET_API_KEY = 'eff1660adbcf1b5d0513a86cd7a69a482e4158686a428ae36291ef5fd1a4e33e';
 
 class IPFSService {
-  constructor() {
-    // You can use Infura, Pinata, or local IPFS node
-    this.ipfs = create({
-      host: 'ipfs.infura.io',
-      port: 5001,
-      protocol: 'https',
-      headers: {
-        authorization: 'Bearer YOUR_INFURA_PROJECT_SECRET' // Replace with your Infura credentials
-      }
-    });
-  }
-
   async uploadFile(file) {
+    const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
+    const formData = new FormData();
+    formData.append('file', file);
+
     try {
-      const added = await this.ipfs.add(file);
-      return added.path; // This is the IPFS hash
+      const res = await axios.post(url, formData, {
+        maxBodyLength: Infinity,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          pinata_api_key: PINATA_API_KEY,
+          pinata_secret_api_key: PINATA_SECRET_API_KEY
+        }
+      });
+      return res.data.IpfsHash;
     } catch (error) {
-      console.error('Error uploading file to IPFS:', error);
+      console.error('❌ Error uploading file to Pinata:', error);
       throw new Error('Failed to upload file to IPFS');
     }
   }
 
   async uploadJSON(jsonData) {
+    const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
+
     try {
-      const jsonString = JSON.stringify(jsonData);
-      const added = await this.ipfs.add(jsonString);
-      return added.path;
+      const res = await axios.post(url, jsonData, {
+        headers: {
+          'Content-Type': 'application/json',
+          pinata_api_key: PINATA_API_KEY,
+          pinata_secret_api_key: PINATA_SECRET_API_KEY
+        }
+      });
+      return res.data.IpfsHash;
     } catch (error) {
-      console.error('Error uploading JSON to IPFS:', error);
+      console.error('❌ Error uploading JSON to Pinata:', error);
       throw new Error('Failed to upload JSON to IPFS');
     }
   }
 
   getFileUrl(hash) {
-    return `https://ipfs.infura.io/ipfs/${hash}`;
-  }
-
-  async getFile(hash) {
-    try {
-      const chunks = [];
-      for await (const chunk of this.ipfs.cat(hash)) {
-        chunks.push(chunk);
-      }
-      return new Uint8Array(chunks.reduce((acc, chunk) => [...acc, ...chunk], []));
-    } catch (error) {
-      console.error('Error retrieving file from IPFS:', error);
-      throw new Error('Failed to retrieve file from IPFS');
-    }
+    return `https://gateway.pinata.cloud/ipfs/${hash}`;
   }
 }
 

@@ -1,9 +1,19 @@
-// src/App.js
-import React, { useState, useEffect } from 'react';
-import { Search, Users, FileText, AlertCircle, Bell, Mail, User, LogOut, Upload, Plus, Eye, Shield, Database, TrendingUp } from 'lucide-react';
+import React, { useState } from 'react';
+import WalletConnectButton from './components/WalletConnectButton';
+import CriminalRecordSystem from './components/CriminalRecordSystem';
 
-const CriminalRecordSystem = () => {
-  // [The complete React component code from the artifact above]
+const App = () => {
+  const [account, setAccount] = useState(null);
+
+  return (
+    <div className="bg-[#111827] text-white min-h-screen">
+      {!account ? (
+        <WalletConnectButton onConnect={setAccount} />
+      ) : (
+        <CriminalRecordSystem userAddress={account} />
+      )}
+    </div>
+  );
 };
 
-export default CriminalRecordSystem;
+export default App;
